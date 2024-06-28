@@ -22,9 +22,6 @@ public class GameRendererMixin {
         Render3DEngine.INSTANCE.getLastModMat().set(RenderSystem.getModelViewMatrix());
         Render3DEngine.INSTANCE.getLastWorldSpaceMatrix().set(matrices.peek().getPositionMatrix());
 
-        new Render3DEvent(matrices);
-
-        RenderSystem.getModelViewStack().popMatrix();
-        RenderSystem.applyModelViewMatrix();
+        new Render3DEvent(matrices).post();
     }
 }
