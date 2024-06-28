@@ -1,4 +1,4 @@
-package dev.skidder.omega.mixin.mixins.render;
+package dev.skidder.omega.mixin.mixins.client;
 
 import dev.skidder.omega.Omega;
 import dev.skidder.omega.event.impl.*;

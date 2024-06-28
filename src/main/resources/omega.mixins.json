@@ -1,14 +1,14 @@
 {
-	"required": true,
-	"package": "dev.skidder.omega.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"mixins.render.MinecraftClientMixin",
-		"mixins.input.KeyboardMixin",
-		"render.InGameHudMixin",
-		"render.GameRendererMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "dev.skidder.omega.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "mixins.client.MinecraftClientMixin",
+    "mixins.input.KeyboardMixin",
+    "mixins.render.GameRendererMixin",
+    "mixins.render.InGameHudMixin",
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }
