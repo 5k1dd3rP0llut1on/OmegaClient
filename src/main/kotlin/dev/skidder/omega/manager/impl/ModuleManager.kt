@@ -25,6 +25,7 @@ object ModuleManager: AbstractManager() {
 
     private fun loadModules() {
         add(Notifications)
+        add(ClickGui)
     }
 
     private fun add(module: Module) {
