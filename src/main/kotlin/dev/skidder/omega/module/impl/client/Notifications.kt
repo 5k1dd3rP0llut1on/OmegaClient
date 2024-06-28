@@ -6,5 +6,6 @@ import dev.skidder.omega.module.Module
 object Notifications: Module(
     name = "Notifications",
     description = "Logging when module toggling",
-    category = Category.CLIENT
+    category = Category.CLIENT,
+    defaultEnable = true
 )
