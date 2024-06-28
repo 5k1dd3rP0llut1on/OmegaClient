@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "dev.skidder.omega.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"MinecraftClientMixin",
+		"input.KeyboardMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
