@@ -3,8 +3,8 @@
 	"package": "dev.skidder.omega.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"MinecraftClientMixin",
-		"input.KeyboardMixin",
+		"mixins.render.MinecraftClientMixin",
+		"mixins.input.KeyboardMixin",
 		"render.InGameHudMixin",
 		"render.GameRendererMixin"
 	],

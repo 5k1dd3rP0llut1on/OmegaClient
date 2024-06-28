@@ -1,4 +1,4 @@
-package dev.skidder.omega.mixin.input;
+package dev.skidder.omega.mixin.mixins.input;
 
 import dev.skidder.omega.event.impl.KeyEvent;
 import dev.skidder.omega.settings.KeyBind;
