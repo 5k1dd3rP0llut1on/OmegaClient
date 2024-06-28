@@ -28,5 +28,4 @@ public class InGameHudMixin {
         RenderSystem.applyModelViewMatrix();
         client.getProfiler().pop();
     }
-
 }

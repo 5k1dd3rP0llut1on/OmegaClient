@@ -6,9 +6,9 @@
     "mixins.client.MinecraftClientMixin",
     "mixins.input.KeyboardMixin",
     "mixins.render.GameRendererMixin",
-    "mixins.render.InGameHudMixin",
+    "mixins.render.InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }
