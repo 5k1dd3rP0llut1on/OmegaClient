@@ -12,12 +12,19 @@ object ClickGui : Module(
     description = "Click Gui for omega client.",
     defaultKeyBind = GLFW.GLFW_KEY_RIGHT_SHIFT
 ) {
+    val background by setting("BackGround", false)
+    val shadow by setting("Shadow", false)
+
     init {
         onEnable {
-            runSafe { mc.setScreen(ClickGuiScreen) }
+            runSafe {
+                mc.setScreen(ClickGuiScreen)
+            }
         }
         onDisable {
-            runSafe { mc.setScreen(null) }
+            runSafe {
+                mc.setScreen(null)
+            }
         }
     }
 }

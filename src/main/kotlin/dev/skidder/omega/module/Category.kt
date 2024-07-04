@@ -9,6 +9,7 @@ enum class Category(override val displayName: CharSequence): DisplayEnum {
     MOVEMENT("Movement"),
     PLAYER("Player"),
     RENDER("Render"),
-    CLIENT("Client")
+    CLIENT("Client"),
+    HUD("HUD")
 
 }

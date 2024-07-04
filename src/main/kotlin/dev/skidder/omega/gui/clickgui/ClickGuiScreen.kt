@@ -1,29 +1,86 @@
 package dev.skidder.omega.gui.clickgui
 
+import dev.skidder.omega.gui.CategoryPanel
 import dev.skidder.omega.module.Category
-import dev.skidder.omega.util.Wrapper
+import dev.skidder.omega.module.impl.client.ClickGui
 import dev.skidder.omega.util.graphics.Render2DUtils
 import dev.skidder.omega.util.graphics.color.ColorRGB
+import dev.skidder.omega.util.threads.runSafe
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 
-object ClickGuiScreen : Screen(Text.empty()) {
-    val animationTime = 0L
-    val showingCategory = Category.CLIENT
+object ClickGuiScreen : Screen(Text.of("ClickGUIScreen")) {
+
+    var func: () -> Unit = {}
+
+    private val frames: MutableList<CategoryPanel> = arrayListOf()
+
+    init {
+
+        var offset = 20
+        for (category in Category.entries) {
+            frames.add(CategoryPanel(category, offset, 30, 120, 14))
+            offset += 125
+        }
+    }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        width = 500
-        height = 550
-        context.matrices.push()
-        Render2DUtils.drawRect(
-            context.matrices,
-            Wrapper.mc.window.width / 2f - width / 2f,
-            Wrapper.mc.window.height / 2f - height / 2f,
-            width.toFloat(),
-            height.toFloat(),
-            ColorRGB(255, 255, 255)
-        )
-        context.matrices.pop()
+        runSafe {
+            if (ClickGui.background) {
+                Render2DUtils.drawRect(
+                    context.matrices, 0f, 0f,
+                    mc.window.scaledWidth.toFloat(), mc.window.scaledHeight.toFloat(),
+                    ColorRGB(0, 0, 0, 160)
+                )
+            }
+
+            frames.forEach {
+                it.render(context, mouseX, mouseY, delta)
+                it.updatePosition(mouseX, mouseY)
+            }
+
+            func.invoke()
+        }
+
     }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        frames.forEach { it.mouseClicked(mouseX, mouseY, button) }
+        return super.mouseClicked(mouseX, mouseY, button)
+    }
+
+    override fun mouseReleased(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        frames.forEach { it.mouseReleased(mouseX, mouseY, button) }
+        return super.mouseReleased(mouseX, mouseY, button)
+    }
+
+    override fun mouseScrolled(
+        mouseX: Double,
+        mouseY: Double,
+        horizontalAmount: Double,
+        verticalAmount: Double
+    ): Boolean {
+        frames.forEach { it.mouseScrolled(verticalAmount) }
+        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
+    }
+
+    override fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        frames.forEach { it.keyReleased(keyCode, scanCode, modifiers) }
+        return super.keyReleased(keyCode, scanCode, modifiers)
+    }
+
+    override fun close() {
+        ClickGui.disable()
+        super.close()
+    }
+
+    override fun shouldPause(): Boolean {
+        return false
+    }
+
+    override fun shouldCloseOnEsc(): Boolean {
+        return true
+    }
+
 }

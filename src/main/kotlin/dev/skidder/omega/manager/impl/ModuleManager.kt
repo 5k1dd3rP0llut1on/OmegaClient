@@ -9,7 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 object ModuleManager: AbstractManager() {
 
-    private val modules = CopyOnWriteArrayList<Module>()
+    val modules = CopyOnWriteArrayList<Module>()
 
     override fun onInit() {
         loadModules()
