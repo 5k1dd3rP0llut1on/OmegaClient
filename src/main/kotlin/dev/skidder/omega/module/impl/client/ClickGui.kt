@@ -12,7 +12,6 @@ object ClickGui : Module(
     description = "Click Gui for omega client.",
     defaultKeyBind = GLFW.GLFW_KEY_RIGHT_SHIFT
 ) {
-    val background by setting("BackGround", false)
     val shadow by setting("Shadow", false)
 
     init {

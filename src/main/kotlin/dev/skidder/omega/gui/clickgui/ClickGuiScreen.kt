@@ -17,7 +17,6 @@ object ClickGuiScreen : Screen(Text.of("ClickGUIScreen")) {
     private val frames: MutableList<CategoryPanel> = arrayListOf()
 
     init {
-
         var offset = 20
         for (category in Category.entries) {
             frames.add(CategoryPanel(category, offset, 30, 120, 14))
@@ -27,14 +26,6 @@ object ClickGuiScreen : Screen(Text.of("ClickGUIScreen")) {
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         runSafe {
-            if (ClickGui.background) {
-                Render2DUtils.drawRect(
-                    context.matrices, 0f, 0f,
-                    mc.window.scaledWidth.toFloat(), mc.window.scaledHeight.toFloat(),
-                    ColorRGB(0, 0, 0, 160)
-                )
-            }
-
             frames.forEach {
                 it.render(context, mouseX, mouseY, delta)
                 it.updatePosition(mouseX, mouseY)
