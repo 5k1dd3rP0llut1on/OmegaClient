@@ -48,12 +48,12 @@ class CategoryPanel(
         drawString(
             context, category.displayString,
             x + (width / 2.0f - mc.textRenderer.getWidth(category.displayString) / 2), y + offset.toFloat(),
-            ColorRGB(255, 255, 255), ClickGui.shadow
+            ColorRGB(255,255, 255), ClickGui.shadow
         )
 
         drawString(
-            context, if (extended) "-" else "+",
-            x + width - (offset) - mc.textRenderer.getWidth("+").toFloat(), y + offset.toFloat(),
+            context, if (extended) "" else "",
+            x + width - (offset) - mc.textRenderer.getWidth("").toFloat(), y + offset.toFloat(),
             ColorRGB(255, 255, 255), ClickGui.shadow
         )
 

@@ -19,45 +19,39 @@ import net.minecraft.client.gui.DrawContext
 
 class ModuleButton(val module: Module, val parent: CategoryPanel, var offset: Int) {
 
-    val components: MutableList<Component> = arrayListOf()
-    var extended: Boolean = false
+    val components = mutableListOf<Component>()
+    var extended = false
 
-    init {
-        var setOffset = parent.height
-        for (setting in module.settings) {
-            when (setting) {
-                is NumberSetting -> {
-                    components.add(Slider(setting, this, setOffset))
-                    setOffset += parent.height
-                }
-
-                is BooleanSetting -> {
-                    components.add(CheckBox(setting, this, setOffset))
-                    setOffset += parent.height
-                }
-
-                is EnumSetting<*> -> {
-                    components.add(ModeBox(setting, this, setOffset))
-                    setOffset += parent.height
-                }
-
-                is KeyBindSetting -> {
-                    components.add(BindBox(setting, this, setOffset))
-                    setOffset += parent.height
-                }
-            }
+  init {
+    var setOffset = parent.height
+    module.settings.forEach { setting ->
+        val component = when (setting) {
+            is NumberSetting -> Slider(setting, this, setOffset)
+            is BooleanSetting -> CheckBox(setting, this, setOffset)
+            is EnumSetting<*> -> ModeBox(setting, this, setOffset)
+            is KeyBindSetting -> BindBox(setting, this, setOffset)
+            else -> throw IllegalArgumentException("Unsupported setting type")
         }
+        components.add(component)
+        setOffset += parent.height
+    }
+}
+
+ fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    val backgroundColor = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) {
+        ColorRGB(100, 100, 100, 255)
+    } else {
+        ColorRGB(80, 80, 80, 255)
     }
 
-    fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        Render2DUtils.renderRoundedQuad(
-            context.matrices,
-            if (isHovered(mouseX.toDouble(), mouseY.toDouble())) ColorRGB(100, 100, 100, 255)
-            else ColorRGB(80, 80, 80, 255),
-            parent.x.toFloat(), parent.y.toFloat() + offset,
-            parent.x + parent.width.toFloat(), parent.y + offset + parent.height.toFloat(),
-            2.0, 2.0
-        )
+    val x1 = parent.x.toFloat()
+    val y1 = parent.y.toFloat() + offset
+    val x2 = parent.x + parent.width.toFloat()
+    val y2 = parent.y + offset + parent.height.toFloat()
+    val cornerRadius = 2.0
+
+    Render2DUtils.renderRoundedQuad(context.matrices, backgroundColor, x1, y1, x2, y2, cornerRadius, cornerRadius)
+
 
         val textOffset = (parent.height / 2) - mc.textRenderer.fontHeight / 2
 
@@ -69,14 +63,13 @@ class ModuleButton(val module: Module, val parent: CategoryPanel, var offset: In
             ClickGui.shadow
         )
 
-        TextUtils.drawString(
-            context, if (extended) "-" else "+",
-            parent.x + parent.width - mc.textRenderer.getWidth("+") - ((parent.height / 2.0f) - mc.textRenderer.fontHeight / 2.0f),
-            parent.y + offset + textOffset.toFloat(),
-            if (module.isEnabled) ColorRGB(130, 180, 210)
-            else ColorRGB(255, 255, 255),
-            ClickGui.shadow
-        )
+      val textToDraw = if (extended) "-" else "+"
+      val textColor = if (module.isEnabled) ColorRGB(130, 180, 210) else ColorRGB(255, 255, 255)
+
+
+     val textWidth = mc.textRenderer.getWidth(textToDraw)
+     val x = parent.x + parent.width - textWidth - ((parent.height / 2.0f) - mc.textRenderer.fontHeight / 2.0f)
+     val y = parent.y + offset + textOffset.toFloat()
 
         if (extended) {
             refreshComponentsOffset()
@@ -131,9 +124,8 @@ class ModuleButton(val module: Module, val parent: CategoryPanel, var offset: In
 
     private fun refreshComponentsOffset() {
         var setOffset = parent.height
-        for (comp in components) {
-            if (!comp.setting.visibility.invoke()) continue
-            comp.offset = setOffset
+        components.filter { it.setting.visibility.invoke() }.forEach {
+            it.offset = setOffset
             setOffset += parent.height
         }
     }

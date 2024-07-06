@@ -12,17 +12,11 @@ import net.minecraft.text.Text
 
 object ClickGuiScreen : Screen(Text.of("ClickGUIScreen")) {
 
-    var func: () -> Unit = {}
+var func: () -> Unit = {}
 
-    private val frames: MutableList<CategoryPanel> = arrayListOf()
-
-    init {
-        var offset = 20
-        for (category in Category.entries) {
-            frames.add(CategoryPanel(category, offset, 30, 120, 14))
-            offset += 125
-        }
-    }
+    private val frames: MutableList<CategoryPanel> = Category.entries.mapIndexed { index, category ->
+        CategoryPanel(category, 20 + index * 125, 40, 110, 20)
+    }.toMutableList()
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         runSafe {
@@ -35,7 +29,6 @@ object ClickGuiScreen : Screen(Text.of("ClickGUIScreen")) {
         }
 
     }
-
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         frames.forEach { it.mouseClicked(mouseX, mouseY, button) }
         return super.mouseClicked(mouseX, mouseY, button)
@@ -46,13 +39,20 @@ object ClickGuiScreen : Screen(Text.of("ClickGUIScreen")) {
         return super.mouseReleased(mouseX, mouseY, button)
     }
 
+fun List<CategoryPanel>.handleMouseScroll(verticalAmount: Double, handler: (CategoryPanel, Double) -> Unit) {
+    forEach {
+        handler(it, verticalAmount)
+    }
+}
     override fun mouseScrolled(
         mouseX: Double,
         mouseY: Double,
         horizontalAmount: Double,
         verticalAmount: Double
     ): Boolean {
-        frames.forEach { it.mouseScrolled(verticalAmount) }
+        frames.handleMouseScroll(verticalAmount) { panel, amount ->
+            panel.mouseScrolled(amount)
+        }
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
     }
 
