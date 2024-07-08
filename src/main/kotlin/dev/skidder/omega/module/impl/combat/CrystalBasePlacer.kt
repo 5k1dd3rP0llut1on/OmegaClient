@@ -27,7 +27,9 @@ object CrystalBasePlacer : Module(
             if (!backed) {
                 if (backTimer.passed(backDelay)) {
                     player.inventory.selectedSlot = oldSlot
+                    val setKey = mc.options.useKey.isPressed
                     player.useBook(player.mainHandStack, Hand.MAIN_HAND)
+                    mc.options.useKey.isPressed = setKey
                     backed = true
                 }
             } else {
@@ -42,6 +44,7 @@ object CrystalBasePlacer : Module(
                             oldSlot = player.inventory.selectedSlot
                             player.inventory.selectedSlot = slot
                             player.useBook(player.mainHandStack, Hand.MAIN_HAND)
+                            mc.options.useKey.isPressed = true
                             backed = false
                             backTimer.reset()
                         }

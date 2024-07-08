@@ -6,6 +6,7 @@ import dev.skidder.omega.manager.AbstractManager
 import dev.skidder.omega.module.Module
 import dev.skidder.omega.module.impl.client.ClickGui
 import dev.skidder.omega.module.impl.client.Notifications
+import dev.skidder.omega.module.impl.combat.AutoHitCrystal
 import dev.skidder.omega.module.impl.combat.CrystalBasePlacer
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -29,6 +30,7 @@ object ModuleManager : AbstractManager() {
         add(Notifications)
         add(ClickGui)
         add(CrystalBasePlacer)
+        add(AutoHitCrystal)
     }
 
     private fun add(module: Module) {
