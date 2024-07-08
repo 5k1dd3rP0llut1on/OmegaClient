@@ -1,5 +1,6 @@
 package dev.skidder.omega.util.math
 
+import dev.skidder.omega.util.math.vector.Vec3f
 import net.minecraft.util.math.*
 
 fun BlockPos.toBox(): Box {

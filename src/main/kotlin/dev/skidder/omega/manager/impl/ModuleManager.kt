@@ -4,10 +4,10 @@ import dev.skidder.omega.event.impl.KeyEvent
 import dev.skidder.omega.event.safeEventListener
 import dev.skidder.omega.manager.AbstractManager
 import dev.skidder.omega.module.Module
-import dev.skidder.omega.module.impl.client.ClickGui
-import dev.skidder.omega.module.impl.client.Notifications
-import dev.skidder.omega.module.impl.combat.AutoHitCrystal
-import dev.skidder.omega.module.impl.combat.CrystalBasePlacer
+import dev.skidder.omega.module.impl.client.*
+import dev.skidder.omega.module.impl.combat.*
+import dev.skidder.omega.module.impl.misc.*
+import dev.skidder.omega.module.impl.movement.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 object ModuleManager : AbstractManager() {
@@ -27,10 +27,15 @@ object ModuleManager : AbstractManager() {
     }
 
     private fun loadModules() {
-        add(Notifications)
-        add(ClickGui)
-        add(CrystalBasePlacer)
-        add(AutoHitCrystal)
+        kotlin.runCatching {
+            add(Notifications)
+            add(ClickGui)
+            add(CrystalBasePlacer)
+            add(AutoHitCrystal)
+            add(KillAura)
+            add(FakePlayer)
+            add(Flight)
+        }
     }
 
     private fun add(module: Module) {

@@ -1,4 +1,4 @@
-package dev.skidder.omega.util.math
+package dev.skidder.omega.util.math.vector
 
 data class Vec3f(val x: Float, val y: Float, val z: Float) {
     companion object {

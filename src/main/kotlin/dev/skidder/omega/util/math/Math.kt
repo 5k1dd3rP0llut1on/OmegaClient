@@ -65,3 +65,6 @@ inline val Int.quart: Int get() = this * this * this * this
 inline val Double.quint: Double get() = this * this * this * this * this
 inline val Float.quint: Float get() = this * this * this * this * this
 inline val Int.quint: Int get() = this * this * this * this * this
+
+fun Float.toRadians() = this / 180.0f * PI_FLOAT
+fun Double.toRadians() = this / 180.0 * PI
